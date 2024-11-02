@@ -6,6 +6,6 @@ export const validateSchema = (schema) => (req, res, next) => {
     console.error(err.errors);
     return res
       .status(400)
-      .json({ error: err.errors.map((err) => err.message) });
+      .json(err.errors.map((err) => err.message));
   }
 };
