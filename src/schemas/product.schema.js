@@ -7,7 +7,7 @@ export const createProductSchema = z.object({
     description : z.string({
         required_error : 'Description must be a String'
     }).optional(),
-    price : z.number({
+    price : z.string({
         required_error : 'Price is required',
     })
 });

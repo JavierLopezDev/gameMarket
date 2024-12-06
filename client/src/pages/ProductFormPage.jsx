@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
+import { useProducts } from "../context/ProductsContext";
 
 function ProductFormPage() {
   const { register, handleSubmit } = useForm();
+  const { createProduct } = useProducts();
   
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    createProduct(data);
   });
 
   return (
