@@ -8,12 +8,14 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
 import { ProductProvider } from "./context/ProductsContext";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <AuthProvider>
       <ProductProvider>
         <BrowserRouter>
+          <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
