@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (user) => {
     try {
       const res = await loginRequest(user);
-      console.log(res.data);
       setUser(res.data);
       setIsAuthenticated(true);
     } catch (error) {
@@ -58,29 +57,31 @@ export const AuthProvider = ({ children }) => {
 
       if (!cookies.token) {
         setIsAuthenticated(false);
-        setUser(null);
         setLoading(false);
+        setUser(null);
         return;
       }
 
-      try {
-        const res = await verifyTokenRequest(cookies.token);
-        if (!res.data) {
-          isAuthenticated(false)
+      if (cookies.token) {
+        try {
+          const res = await verifyTokenRequest(cookies.token);
+          if (!res.data) {
+            setIsAuthenticated(false);
+            setLoading(false);
+            return; 
+          };
+
+          setIsAuthenticated(true);
+          setUser(res.data);
+          setLoading(false);
+          console.log('User authenticated');
+        } catch (error) {
+          console.log(error);
+          setIsAuthenticated(false);
           setUser(null);
           setLoading(false);
-          return; 
-        };
-
-        setUser(res.data);
-        setIsAuthenticated(true);
-        setLoading(false);
-      } catch (error) {
-        setIsAuthenticated(false);
-        setUser(null);
-        setLoading(false);
+        }
       }
-      
     }
     checkLogin();
   }, []);
