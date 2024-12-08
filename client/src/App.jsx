@@ -15,18 +15,20 @@ function App() {
     <AuthProvider>
       <ProductProvider>
         <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/products" element={<ProductPage />} />
-              <Route path="/add-product" element={<ProductFormPage />} />
-              <Route path="/product/:id" element={<ProductFormPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-            </Route>
-          </Routes>
+          <main className="container mx-auto px-10">
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/products" element={<ProductPage />} />
+                <Route path="/add-product" element={<ProductFormPage />} />
+                <Route path="/products/:id" element={<ProductFormPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+              </Route>
+            </Routes>
+          </main>
         </BrowserRouter>
       </ProductProvider>
     </AuthProvider>

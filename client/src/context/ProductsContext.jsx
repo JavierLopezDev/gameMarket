@@ -1,5 +1,9 @@
 import { createContext, useContext, useState } from "react";
-import { createProductRequest, getProductsRequest } from "../api/product";
+import {
+  createProductRequest,
+  getProductsRequest,
+  deleteProductRequest,
+} from "../api/product";
 
 const ProductContext = createContext();
 
@@ -30,8 +34,17 @@ export function ProductProvider({ children }) {
     console.log(res);
   };
 
+  const deleteProduct = async (id) => {
+    try {
+      const res = await deleteProductRequest(id);
+      if (res.status === 200) setProducts(products.filter(product => product._id !== id));
+    } catch (error) {
+      console.log(error);      
+    }
+  };
+
   return (
-    <ProductContext.Provider value={{ products, createProduct, getProducts }}>
+    <ProductContext.Provider value={{ products, createProduct, getProducts, deleteProduct }}>
       {children}
     </ProductContext.Provider>
   );
