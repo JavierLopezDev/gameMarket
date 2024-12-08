@@ -15,7 +15,7 @@ function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/products");
+    if (isAuthenticated) navigate("/");
   }, [isAuthenticated]);
 
   const onSumbit = handleSubmit((data) => {

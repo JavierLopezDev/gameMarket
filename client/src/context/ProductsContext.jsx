@@ -4,7 +4,8 @@ import {
   getProductsRequest,
   deleteProductRequest,
   getProductRequest,
-  updateProductRequest
+  updateProductRequest,
+  getAllProductsRequest,
 } from "../api/product";
 
 const ProductContext = createContext();
@@ -31,6 +32,15 @@ export function ProductProvider({ children }) {
     }
   };
 
+  const getAllProducts = async () => {
+    try {
+      const res = await getAllProductsRequest();
+      setProducts(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const createProduct = async (product) => {
     const res = await createProductRequest(product);
     console.log(res);
@@ -39,9 +49,10 @@ export function ProductProvider({ children }) {
   const deleteProduct = async (id) => {
     try {
       const res = await deleteProductRequest(id);
-      if (res.status === 200) setProducts(products.filter(product => product._id !== id));
+      if (res.status === 200)
+        setProducts(products.filter((product) => product._id !== id));
     } catch (error) {
-      console.log(error);      
+      console.log(error);
     }
   };
 
@@ -52,7 +63,7 @@ export function ProductProvider({ children }) {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const updateProduct = async (id, product) => {
     try {
@@ -60,10 +71,37 @@ export function ProductProvider({ children }) {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const buyProduct = async (id, product, user) => {
+    try {
+      console.log("product: ", product);
+      console.log("id", id);
+      if (!user._id !== id && user.amountMoney >= product.price && product.purchaseUser === null) {
+        product.purchaseUser = id;
+        await updateProductRequest(id, product);
+        alert("Successfully purchased product");
+      } else {
+        alert("You cannot buy this product");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <ProductContext.Provider value={{ products, createProduct, getProducts, deleteProduct, getProduct, updateProduct }}>
+    <ProductContext.Provider
+      value={{
+        products,
+        createProduct,
+        getProducts,
+        deleteProduct,
+        getProduct,
+        updateProduct,
+        getAllProducts,
+        buyProduct,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   );

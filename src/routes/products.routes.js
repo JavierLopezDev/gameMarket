@@ -6,12 +6,14 @@ import {
   createProduct,
   deleteProduct,
   updateProduct,
+  getAllProducts,
 } from "../controllers/product.controller.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
 import { createProductSchema } from "../schemas/product.schema.js";
 
 const router = Router();
 
+router.get('/', getAllProducts)
 router.get("/products", authRequired, getProducts);
 router.get("/products/:id", authRequired, getProduct);
 router.post("/products", authRequired, validateSchema(createProductSchema), createProduct);

@@ -11,14 +11,24 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find({}).populate("user");
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const createProduct = async (req, res) => {
   try {
-    const { title, description, price } = req.body;
+    const { title, description, price, platform } = req.body;
     const newProduct = new Product({
       title,
       description,
       price,
       user: req.user.id,
+      platform,
     });
 
     const saveProduct = await newProduct.save();

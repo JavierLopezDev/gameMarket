@@ -6,7 +6,7 @@ import { TOKEN_SECRET } from '../config.js';
 
 export const register = async (req, res) => {
 
-    const {email, password, username} = req.body;
+    const {email, password, username, amountMoney} = req.body;
 
     try {
 
@@ -19,6 +19,7 @@ export const register = async (req, res) => {
             email : email,
             username : username,
             password : passwordHash,
+            amountMoney : amountMoney,
         });
 
         const userSaved = await newUser.save();
@@ -30,6 +31,7 @@ export const register = async (req, res) => {
             id: userSaved._id,
             username: userSaved.username,
             email: userSaved.email,
+            amountMoney: userSaved.amountMoney,
             createdAt: userSaved.createdAt,
             updatedAt: userSaved.updatedAt,
         });
@@ -58,6 +60,7 @@ export const login = async (req, res) => {
             id: userFound._id,
             username: userFound.username,
             email: userFound.email,
+            amountMoney: userFound.amountMoney,
             createdAt: userFound.createdAt,
             updatedAt: userFound.updatedAt,
         });
@@ -81,6 +84,7 @@ export const profile = async (req, res) => {
         id: userFound._id,
         username: userFound.username,
         email: userFound.email,
+        amountMoney: userFound.amountMoney,
         createdAt: userFound.createdAt,
         updatedAt: userFound.updatedAt,
     });
@@ -101,6 +105,7 @@ export const verifyToken = async (req, res) => {
             id: userFound._id,
             username: userFound.username,
             email: userFound.email,
+            amountMoney: userFound.amountMoney,
         });
     })
 };

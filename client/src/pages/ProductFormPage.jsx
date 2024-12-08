@@ -16,6 +16,7 @@ function ProductFormPage() {
         setValue("title", product.title);
         setValue("description", product.description);
         setValue("price", product.price);
+        setValue("platform", product.platform);
       }
     }
     loadProduct();
@@ -23,11 +24,11 @@ function ProductFormPage() {
 
   const onSubmit = handleSubmit((data) => {
     if (params.id) {
-      updateProduct(params.id, data);
+      updateProduct(params.id, { ...data, price: parseFloat(data.price) });
     } else {
-      createProduct(data);
+      createProduct({ ...data, price: parseFloat(data.price) });
     }
-    navigate("/products");
+    navigate("/profile");
   });
 
   return (
@@ -54,6 +55,16 @@ function ProductFormPage() {
             placeholder="Price"
             {...register("price")}
           />
+          <select
+            className="w-full bg-zinc-700 text-white px-4 py-2 my-2 rounded-md"
+            {...register("platform")} // Registra el campo 'platform'
+          >
+            <option value="">Select Platform</option> {/* Placeholder */}
+            <option value="PC">PC</option>
+            <option value="Xbox">Xbox</option>
+            <option value="PlayStation">PlayStation</option>
+            <option value="Nintendo Switch">Nintendo Switch</option>
+          </select>
           <button
             className="flex my-0 mx-auto bg-zinc-500 rounded-md py-1 px-10"
             type="submit"

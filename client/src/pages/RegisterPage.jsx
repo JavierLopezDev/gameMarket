@@ -14,7 +14,7 @@ function RegisterPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/products");
+    if (isAuthenticated) navigate("/");
   }, [isAuthenticated]);
 
   const onSumbit = handleSubmit(async (values) => {
@@ -24,7 +24,6 @@ function RegisterPage() {
   return (
     <div className="flex items-center justify-center h-[calc(100vh-100px)]">
       <div className="bg-zinc-800 max-w-md p-10 rounded-md">
-
         {registerErrors.map((error, i) => (
           <div className="bg-red-500 p-2 text-white" key={i}>
             {error}
@@ -62,13 +61,27 @@ function RegisterPage() {
             <p className="text-red-500">Password is required</p>
           )}
 
-          <button type="submit" className="flex my-0 mx-auto bg-zinc-500 rounded-md py-1 px-10">Register</button>
+          <input
+            className="w-full bg-zinc-700 text-white px-4 py-2 my-2 rounded-md"
+            type="number"
+            placeholder="Ammount Money"
+            {...register("amountMoney")}
+          />
+
+          <button
+            type="submit"
+            className="flex my-0 mx-auto bg-zinc-500 rounded-md py-1 px-10"
+          >
+            Register
+          </button>
         </form>
 
         <p className="text-center mt-4 text-sky-500">
-          Already have an account? <Link to="/login" className="text-sky-400">LogIn</Link>
+          Already have an account?{" "}
+          <Link to="/login" className="text-sky-400">
+            LogIn
+          </Link>
         </p>
-
       </div>
     </div>
   );
