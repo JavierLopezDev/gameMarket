@@ -12,16 +12,20 @@ export const getProducts = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  const { title, description, price } = req.body;
-  const newProduct = new Product({
-    title,
-    description,
-    price,
-    user: req.user.id,
-  });
+  try {
+    const { title, description, price } = req.body;
+    const newProduct = new Product({
+      title,
+      description,
+      price,
+      user: req.user.id,
+    });
 
-  const saveProduct = await newProduct.save();
-  res.json(saveProduct);
+    const saveProduct = await newProduct.save();
+    res.json(saveProduct);
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 };
 
 export const getProduct = async (req, res) => {

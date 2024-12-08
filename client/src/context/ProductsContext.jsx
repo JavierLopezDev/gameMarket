@@ -3,6 +3,8 @@ import {
   createProductRequest,
   getProductsRequest,
   deleteProductRequest,
+  getProductRequest,
+  updateProductRequest
 } from "../api/product";
 
 const ProductContext = createContext();
@@ -43,8 +45,25 @@ export function ProductProvider({ children }) {
     }
   };
 
+  const getProduct = async (id) => {
+    try {
+      const res = await getProductRequest(id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const updateProduct = async (id, product) => {
+    try {
+      await updateProductRequest(id, product);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <ProductContext.Provider value={{ products, createProduct, getProducts, deleteProduct }}>
+    <ProductContext.Provider value={{ products, createProduct, getProducts, deleteProduct, getProduct, updateProduct }}>
       {children}
     </ProductContext.Provider>
   );

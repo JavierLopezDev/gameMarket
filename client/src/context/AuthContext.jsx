@@ -80,7 +80,6 @@ export const AuthProvider = ({ children }) => {
           setIsAuthenticated(true);
           setUser(res.data);
           setLoading(false);
-          console.log('User authenticated');
         } catch (error) {
           console.log(error);
           setIsAuthenticated(false);

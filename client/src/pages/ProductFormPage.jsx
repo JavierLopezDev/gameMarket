@@ -1,14 +1,32 @@
 import { useForm } from "react-hook-form";
 import { useProducts } from "../context/ProductsContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function ProductFormPage() {
-  const { register, handleSubmit } = useForm();
-  const { createProduct } = useProducts();
+  const { register, handleSubmit, setValue } = useForm();
+  const { createProduct, getProduct, updateProduct } = useProducts();
   const navigate = useNavigate();
-  
+  const params = useParams();
+
+  useEffect(() => {
+    async function loadProduct() {
+      if (params.id) {
+        const product = await getProduct(params.id);
+        setValue("title", product.title);
+        setValue("description", product.description);
+        setValue("price", product.price);
+      }
+    }
+    loadProduct();
+  }, []);
+
   const onSubmit = handleSubmit((data) => {
-    createProduct(data);
+    if (params.id) {
+      updateProduct(params.id, data);
+    } else {
+      createProduct(data);
+    }
     navigate("/products");
   });
 
@@ -17,26 +35,31 @@ function ProductFormPage() {
       <div className="bg-zinc-800 max-w-md p-10 rounded-md w-full">
         <h1 className="text-2xl font-bold text-center">New Product</h1>
         <form onSubmit={onSubmit}>
-          <input 
+          <input
             className="w-full bg-zinc-700 text-white px-4 py-2 my-2 rounded-md"
-            type="text" 
-            placeholder="Title" 
-            {...register("title")} 
+            type="text"
+            placeholder="Title"
+            {...register("title")}
             autoFocus
           />
-          <textarea 
-            rows="3" 
+          <textarea
+            rows="3"
             className="w-full bg-zinc-700 text-white px-4 py-2 my-2 rounded-md"
-            placeholder="Description" 
+            placeholder="Description"
             {...register("description")}
           ></textarea>
-          <input 
+          <input
             className="w-full bg-zinc-700 text-white px-4 py-2 my-2 rounded-md"
-            type="number" 
-            placeholder="Price" 
+            type="number"
+            placeholder="Price"
             {...register("price")}
           />
-          <button className="flex my-0 mx-auto bg-zinc-500 rounded-md py-1 px-10" type="submit">Save</button>
+          <button
+            className="flex my-0 mx-auto bg-zinc-500 rounded-md py-1 px-10"
+            type="submit"
+          >
+            Save
+          </button>
         </form>
       </div>
     </div>
